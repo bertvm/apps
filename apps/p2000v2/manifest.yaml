@@ -1,0 +1,16 @@
+---
+id: p2000v2
+name: P2000 V2
+summary: Styled P2000 alerts
+desc: Displays the latest Dutch P2000 alert in a clearer, color-coded layout. Filter alerts by up to three safety regions, capcodes, and individual emergency services.
+author: bertvm
+published: '2026-09-07T00:00:00Z'
+updated: '2026-09-07T00:00:00Z'
+category: news
+tags:
+  - p2000
+  - alerts
+  - emergency
+  - netherlands
+  - public-safety
+  - local
