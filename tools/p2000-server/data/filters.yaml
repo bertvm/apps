@@ -1,8 +1,0 @@
-# Optional allow-lists. Empty list = allow all for that dimension.
-# Matching is OR within a list, AND across dimensions that are non-empty.
-
-regions: []          # e.g. ["1", "10", "25"]
-services: []         # e.g. ["brandweer", "ambulance", "lifeliner"]
-capcodes: []         # e.g. ["1420054"]
-capcode_deny: []     # always drop these
-text_deny: []        # drop if message contains any of these (case-insensitive)
