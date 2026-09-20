@@ -4,3 +4,5 @@ data/*.db-journal
 data/flex.pipe
 esp32-client/.pio
 esp32-client/include/secrets.h
+**/__pycache__/
+*.pyc
