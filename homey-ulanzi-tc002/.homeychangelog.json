@@ -1,0 +1,8 @@
+{
+  "0.0.1": {
+    "en": "Initial draft scaffold"
+  },
+  "1.0.0": {
+    "en": "First release: MQTT notifications, icons, sounds, custom apps, indicators, mood light, and button/stats triggers for Ulanzi TC002 (Awtrix 3)."
+  }
+}

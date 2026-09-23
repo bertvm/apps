@@ -1,0 +1,129 @@
+<header class="homey-header">
+  <h1 class="homey-title">Connect Ulanzi TC002</h1>
+  <p class="homey-subtitle">
+    Use the same MQTT broker as your Awtrix 3 clock. Copy the MQTT prefix from the clock’s MQTT settings
+    (example: <code>awtrix_A1B2C3</code>).
+  </p>
+</header>
+
+<form id="mqtt-form" class="homey-form">
+  <fieldset class="homey-form-fieldset">
+    <legend class="homey-form-legend">Device</legend>
+
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="name">Name</label>
+      <input class="homey-form-input" id="name" type="text" value="Ulanzi TC002" autocomplete="off" />
+    </div>
+  </fieldset>
+
+  <fieldset class="homey-form-fieldset">
+    <legend class="homey-form-legend">MQTT broker</legend>
+
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="mqtt_host">Host</label>
+      <input
+        class="homey-form-input"
+        id="mqtt_host"
+        type="text"
+        placeholder="192.168.1.10"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+    </div>
+
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="mqtt_port">Port</label>
+      <input class="homey-form-input" id="mqtt_port" type="number" value="1883" min="1" max="65535" />
+    </div>
+
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="mqtt_username">Username (optional)</label>
+      <input class="homey-form-input" id="mqtt_username" type="text" autocomplete="off" />
+    </div>
+
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="mqtt_password">Password (optional)</label>
+      <input class="homey-form-input" id="mqtt_password" type="password" autocomplete="new-password" />
+    </div>
+
+    <div class="homey-form-group">
+      <label class="homey-form-label">
+        <input id="mqtt_tls" type="checkbox" />
+        Use TLS (mqtts)
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset class="homey-form-fieldset">
+    <legend class="homey-form-legend">Awtrix</legend>
+
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="mqtt_prefix">MQTT prefix</label>
+      <input
+        class="homey-form-input"
+        id="mqtt_prefix"
+        type="text"
+        placeholder="awtrix_XXXXXX"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+    </div>
+  </fieldset>
+
+  <button id="next" class="homey-button-primary-full" type="submit">Continue</button>
+</form>
+
+<script type="text/javascript">
+  Homey.setTitle('Ulanzi TC002');
+
+  function val(id) {
+    return document.getElementById(id).value.trim();
+  }
+
+  function emitHomey(eventName, payload) {
+    return new Promise(function (resolve, reject) {
+      try {
+        var emitResult = Homey.emit(eventName, payload, function (error, result) {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve(result);
+        });
+
+        if (emitResult && typeof emitResult.then === 'function') {
+          emitResult.then(resolve).catch(reject);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  document.getElementById('mqtt-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    var btn = document.getElementById('next');
+    btn.disabled = true;
+
+    var data = {
+      name: val('name') || 'Ulanzi TC002',
+      mqtt_host: val('mqtt_host'),
+      mqtt_port: Number(val('mqtt_port')) || 1883,
+      mqtt_username: val('mqtt_username'),
+      mqtt_password: document.getElementById('mqtt_password').value,
+      mqtt_tls: document.getElementById('mqtt_tls').checked,
+      mqtt_prefix: val('mqtt_prefix').replace(/\/+$/, ''),
+    };
+
+    emitHomey('mqtt_save', data)
+      .then(function () {
+        return Homey.showView('list_devices');
+      })
+      .catch(function (error) {
+        Homey.alert(error.message || String(error));
+        btn.disabled = false;
+      });
+  });
+</script>

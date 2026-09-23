@@ -1,0 +1,55 @@
+{
+  "name": {
+    "en": "Ulanzi TC002",
+    "nl": "Ulanzi TC002"
+  },
+  "class": "other",
+  "capabilities": [
+    "onoff",
+    "dim",
+    "measure_battery",
+    "measure_temperature",
+    "measure_humidity",
+    "measure_luminance"
+  ],
+  "capabilitiesOptions": {
+    "onoff": {
+      "title": {
+        "en": "Matrix",
+        "nl": "Matrix"
+      }
+    },
+    "dim": {
+      "title": {
+        "en": "Brightness",
+        "nl": "Helderheid"
+      }
+    }
+  },
+  "platforms": ["local"],
+  "connectivity": ["lan"],
+  "energy": {
+    "batteries": ["INTERNAL"]
+  },
+  "pair": [
+    {
+      "id": "mqtt_config",
+      "navigation": { "next": "list_devices" }
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": { "next": "add_devices" },
+      "options": { "singular": true }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  }
+}
