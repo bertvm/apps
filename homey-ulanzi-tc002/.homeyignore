@@ -1,0 +1,12 @@
+# Ignore files that should not be uploaded to Homey
+.env
+*.log
+.git
+.gitignore
+node_modules/.cache
+test
+*.md
+!README.txt
+.homeycompose
+.eslintrc*
+.editorconfig

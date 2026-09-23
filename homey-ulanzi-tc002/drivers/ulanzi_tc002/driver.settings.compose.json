@@ -1,0 +1,90 @@
+[
+  {
+    "type": "group",
+    "label": {
+      "en": "MQTT broker",
+      "nl": "MQTT broker"
+    },
+    "children": [
+      {
+        "id": "mqtt_host",
+        "type": "text",
+        "label": {
+          "en": "Host",
+          "nl": "Host"
+        },
+        "value": "",
+        "hint": {
+          "en": "IP or hostname of your MQTT broker (e.g. 192.168.1.10)",
+          "nl": "IP of hostnaam van je MQTT broker (bijv. 192.168.1.10)"
+        }
+      },
+      {
+        "id": "mqtt_port",
+        "type": "number",
+        "label": {
+          "en": "Port",
+          "nl": "Poort"
+        },
+        "value": 1883,
+        "hint": {
+          "en": "Default 1883 (8883 for TLS)",
+          "nl": "Standaard 1883 (8883 voor TLS)"
+        }
+      },
+      {
+        "id": "mqtt_username",
+        "type": "text",
+        "label": {
+          "en": "Username",
+          "nl": "Gebruikersnaam"
+        },
+        "value": "",
+        "hint": {
+          "en": "Optional",
+          "nl": "Optioneel"
+        }
+      },
+      {
+        "id": "mqtt_password",
+        "type": "password",
+        "label": {
+          "en": "Password",
+          "nl": "Wachtwoord"
+        },
+        "value": ""
+      },
+      {
+        "id": "mqtt_tls",
+        "type": "checkbox",
+        "label": {
+          "en": "Use TLS (mqtts)",
+          "nl": "Gebruik TLS (mqtts)"
+        },
+        "value": false
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Ulanzi / Awtrix",
+      "nl": "Ulanzi / Awtrix"
+    },
+    "children": [
+      {
+        "id": "mqtt_prefix",
+        "type": "text",
+        "label": {
+          "en": "MQTT prefix",
+          "nl": "MQTT prefix"
+        },
+        "value": "",
+        "hint": {
+          "en": "Exact prefix from Awtrix MQTT settings, e.g. awtrix_A1B2C3",
+          "nl": "Exacte prefix uit Awtrix MQTT-instellingen, bijv. awtrix_A1B2C3"
+        }
+      }
+    ]
+  }
+]

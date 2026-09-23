@@ -1,0 +1,20 @@
+{
+  "name": "com.bertvm.ulanzi.tc002",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "lint": "eslint --ext .js --ignore-path .gitignore .",
+    "test": "node test/awtrix.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "mqtt": "^5.10.4"
+  },
+  "devDependencies": {
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",
+    "eslint": "^8.57.1",
+    "eslint-config-athom": "^3.1.5"
+  }
+}

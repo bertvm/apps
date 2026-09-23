@@ -1,0 +1,5 @@
+{
+  "settings.mqtt.title": "MQTT",
+  "pair.title": "Ulanzi TC002",
+  "pair.subtitle": "Connect via MQTT broker and Awtrix prefix"
+}

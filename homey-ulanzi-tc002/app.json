@@ -1,0 +1,1058 @@
+{
+  "id": "com.bertvm.ulanzi.tc002",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "brandColor": "#00DCB4",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Ulanzi TC002",
+    "nl": "Ulanzi TC002"
+  },
+  "description": {
+    "en": "Send messages, icons and sounds to your Ulanzi TC002 (Awtrix 3) over MQTT.",
+    "nl": "Stuur berichten, iconen en geluiden naar je Ulanzi TC002 (Awtrix 3) via MQTT."
+  },
+  "category": [
+    "appliances"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Bert van Mullem",
+    "email": "bvmullem@gmail.com"
+  },
+  "source": "https://github.com/bertvm/apps",
+  "bugs": {
+    "url": "https://github.com/bertvm/apps/issues"
+  },
+  "drivers": [
+    {
+      "id": "ulanzi_tc002",
+      "name": {
+        "en": "Ulanzi TC002",
+        "nl": "Ulanzi TC002"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff",
+        "dim",
+        "measure_battery",
+        "measure_temperature",
+        "measure_humidity",
+        "measure_luminance"
+      ],
+      "capabilitiesOptions": {
+        "onoff": {
+          "title": {
+            "en": "Matrix",
+            "nl": "Matrix"
+          }
+        },
+        "dim": {
+          "title": {
+            "en": "Brightness",
+            "nl": "Helderheid"
+          }
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
+      "pair": [
+        {
+          "id": "mqtt_config",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": true
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "images": {
+        "small": "/drivers/ulanzi_tc002/assets/images/small.png",
+        "large": "/drivers/ulanzi_tc002/assets/images/large.png",
+        "xlarge": "/drivers/ulanzi_tc002/assets/images/xlarge.png"
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "MQTT broker",
+            "nl": "MQTT broker"
+          },
+          "children": [
+            {
+              "id": "mqtt_host",
+              "type": "text",
+              "label": {
+                "en": "Host",
+                "nl": "Host"
+              },
+              "value": "",
+              "hint": {
+                "en": "IP or hostname of your MQTT broker (e.g. 192.168.1.10)",
+                "nl": "IP of hostnaam van je MQTT broker (bijv. 192.168.1.10)"
+              }
+            },
+            {
+              "id": "mqtt_port",
+              "type": "number",
+              "label": {
+                "en": "Port",
+                "nl": "Poort"
+              },
+              "value": 1883,
+              "hint": {
+                "en": "Default 1883 (8883 for TLS)",
+                "nl": "Standaard 1883 (8883 voor TLS)"
+              }
+            },
+            {
+              "id": "mqtt_username",
+              "type": "text",
+              "label": {
+                "en": "Username",
+                "nl": "Gebruikersnaam"
+              },
+              "value": "",
+              "hint": {
+                "en": "Optional",
+                "nl": "Optioneel"
+              }
+            },
+            {
+              "id": "mqtt_password",
+              "type": "password",
+              "label": {
+                "en": "Password",
+                "nl": "Wachtwoord"
+              },
+              "value": ""
+            },
+            {
+              "id": "mqtt_tls",
+              "type": "checkbox",
+              "label": {
+                "en": "Use TLS (mqtts)",
+                "nl": "Gebruik TLS (mqtts)"
+              },
+              "value": false
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Ulanzi / Awtrix",
+            "nl": "Ulanzi / Awtrix"
+          },
+          "children": [
+            {
+              "id": "mqtt_prefix",
+              "type": "text",
+              "label": {
+                "en": "MQTT prefix",
+                "nl": "MQTT prefix"
+              },
+              "value": "",
+              "hint": {
+                "en": "Exact prefix from Awtrix MQTT settings, e.g. awtrix_A1B2C3",
+                "nl": "Exacte prefix uit Awtrix MQTT-instellingen, bijv. awtrix_A1B2C3"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "flow": {
+    "triggers": [
+      {
+        "id": "button_pressed",
+        "title": {
+          "en": "A button was pressed",
+          "nl": "Er is op een knop gedrukt"
+        },
+        "titleFormatted": {
+          "en": "Any button was pressed",
+          "nl": "Er is op een knop gedrukt"
+        },
+        "tokens": [
+          {
+            "name": "button",
+            "type": "string",
+            "title": {
+              "en": "Button",
+              "nl": "Knop"
+            },
+            "example": {
+              "en": "left"
+            }
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      },
+      {
+        "id": "button_left",
+        "title": {
+          "en": "Left button pressed",
+          "nl": "Linkerknop ingedrukt"
+        },
+        "tokens": [
+          {
+            "name": "button",
+            "type": "string",
+            "title": {
+              "en": "Button",
+              "nl": "Knop"
+            },
+            "example": {
+              "en": "left"
+            }
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      },
+      {
+        "id": "button_middle",
+        "title": {
+          "en": "Middle button pressed",
+          "nl": "Middelste knop ingedrukt"
+        },
+        "tokens": [
+          {
+            "name": "button",
+            "type": "string",
+            "title": {
+              "en": "Button",
+              "nl": "Knop"
+            },
+            "example": {
+              "en": "middle"
+            }
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      },
+      {
+        "id": "button_right",
+        "title": {
+          "en": "Right button pressed",
+          "nl": "Rechterknop ingedrukt"
+        },
+        "tokens": [
+          {
+            "name": "button",
+            "type": "string",
+            "title": {
+              "en": "Button",
+              "nl": "Knop"
+            },
+            "example": {
+              "en": "right"
+            }
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      },
+      {
+        "id": "stats_updated",
+        "title": {
+          "en": "Stats updated",
+          "nl": "Statistieken bijgewerkt"
+        },
+        "tokens": [
+          {
+            "name": "battery",
+            "type": "number",
+            "title": {
+              "en": "Battery %",
+              "nl": "Batterij %"
+            },
+            "example": 85
+          },
+          {
+            "name": "temperature",
+            "type": "number",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            },
+            "example": 21.5
+          },
+          {
+            "name": "humidity",
+            "type": "number",
+            "title": {
+              "en": "Humidity",
+              "nl": "Luchtvochtigheid"
+            },
+            "example": 45
+          },
+          {
+            "name": "luminance",
+            "type": "number",
+            "title": {
+              "en": "Luminance",
+              "nl": "Lichtsterkte"
+            },
+            "example": 120
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "send_notification",
+        "highlight": true,
+        "title": {
+          "en": "Send a notification",
+          "nl": "Stuur een notificatie"
+        },
+        "titleFormatted": {
+          "en": "Send [[text]] with icon [[icon]] and sound [[sound]]",
+          "nl": "Stuur [[text]] met icoon [[icon]] en geluid [[sound]]"
+        },
+        "hint": {
+          "en": "Shows a one-shot notification on the Ulanzi TC002. Built-in icons and sounds are bundled; you can also type a device icon/melody name.",
+          "nl": "Toont een eenmalige notificatie op de Ulanzi TC002. Bundled iconen en geluiden zijn inbegrepen; je kunt ook een icoon/melodie van het apparaat typen."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "text",
+            "type": "text",
+            "placeholder": {
+              "en": "Hello from Homey",
+              "nl": "Hallo van Homey"
+            }
+          },
+          {
+            "name": "icon",
+            "type": "autocomplete",
+            "required": false,
+            "title": {
+              "en": "Icon",
+              "nl": "Icoon"
+            },
+            "placeholder": {
+              "en": "message",
+              "nl": "message"
+            }
+          },
+          {
+            "name": "sound",
+            "type": "autocomplete",
+            "required": false,
+            "title": {
+              "en": "Sound",
+              "nl": "Geluid"
+            },
+            "placeholder": {
+              "en": "chime",
+              "nl": "chime"
+            }
+          },
+          {
+            "name": "color",
+            "type": "color",
+            "required": false,
+            "value": "#00DCB4",
+            "title": {
+              "en": "Color",
+              "nl": "Kleur"
+            }
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "required": false,
+            "placeholder": {
+              "en": "5",
+              "nl": "5"
+            },
+            "title": {
+              "en": "Duration (s)",
+              "nl": "Duur (s)"
+            }
+          },
+          {
+            "name": "rainbow",
+            "type": "dropdown",
+            "value": "false",
+            "values": [
+              {
+                "id": "false",
+                "label": {
+                  "en": "No",
+                  "nl": "Nee"
+                }
+              },
+              {
+                "id": "true",
+                "label": {
+                  "en": "Yes",
+                  "nl": "Ja"
+                }
+              }
+            ],
+            "title": {
+              "en": "Rainbow",
+              "nl": "Regenboog"
+            }
+          },
+          {
+            "name": "hold",
+            "type": "dropdown",
+            "value": "false",
+            "values": [
+              {
+                "id": "false",
+                "label": {
+                  "en": "No",
+                  "nl": "Nee"
+                }
+              },
+              {
+                "id": "true",
+                "label": {
+                  "en": "Yes (until dismiss)",
+                  "nl": "Ja (tot afwijzen)"
+                }
+              }
+            ],
+            "title": {
+              "en": "Hold",
+              "nl": "Vasthouden"
+            }
+          },
+          {
+            "name": "wakeup",
+            "type": "dropdown",
+            "value": "true",
+            "values": [
+              {
+                "id": "true",
+                "label": {
+                  "en": "Yes",
+                  "nl": "Ja"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "No",
+                  "nl": "Nee"
+                }
+              }
+            ],
+            "title": {
+              "en": "Wake screen",
+              "nl": "Scherm wekken"
+            }
+          }
+        ]
+      },
+      {
+        "id": "send_notification_json",
+        "title": {
+          "en": "Send notification (raw JSON)",
+          "nl": "Stuur notificatie (ruwe JSON)"
+        },
+        "titleFormatted": {
+          "en": "Send notification JSON [[json]]",
+          "nl": "Stuur notificatie JSON [[json]]"
+        },
+        "hint": {
+          "en": "Publish any Awtrix notify JSON to PREFIX/notify.",
+          "nl": "Publiceer willekeurige Awtrix notify JSON naar PREFIX/notify."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "json",
+            "type": "text",
+            "placeholder": {
+              "en": "{\"text\":\"Hi\",\"icon\":\"message\",\"rtttl\":\"beep:d=4,o=5,b=320:8c6\"}"
+            }
+          }
+        ]
+      },
+      {
+        "id": "dismiss_notification",
+        "title": {
+          "en": "Dismiss notification",
+          "nl": "Notificatie afwijzen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      },
+      {
+        "id": "set_custom_app",
+        "highlight": true,
+        "title": {
+          "en": "Create or update custom app",
+          "nl": "Maak of update custom app"
+        },
+        "titleFormatted": {
+          "en": "Set app [[name]] to [[text]] with icon [[icon]]",
+          "nl": "Zet app [[name]] op [[text]] met icoon [[icon]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "placeholder": {
+              "en": "homey",
+              "nl": "homey"
+            }
+          },
+          {
+            "name": "text",
+            "type": "text",
+            "required": false,
+            "placeholder": {
+              "en": "Living room 21°C",
+              "nl": "Woonkamer 21°C"
+            }
+          },
+          {
+            "name": "icon",
+            "type": "autocomplete",
+            "required": false,
+            "title": {
+              "en": "Icon",
+              "nl": "Icoon"
+            }
+          },
+          {
+            "name": "color",
+            "type": "color",
+            "required": false,
+            "value": "#FFFFFF",
+            "title": {
+              "en": "Color",
+              "nl": "Kleur"
+            }
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "required": false,
+            "placeholder": {
+              "en": "5"
+            },
+            "title": {
+              "en": "Duration (s)",
+              "nl": "Duur (s)"
+            }
+          },
+          {
+            "name": "lifetime",
+            "type": "number",
+            "required": false,
+            "placeholder": {
+              "en": "0"
+            },
+            "title": {
+              "en": "Lifetime (s, 0=forever)",
+              "nl": "Lifetime (s, 0=voor altijd)"
+            }
+          },
+          {
+            "name": "rainbow",
+            "type": "dropdown",
+            "value": "false",
+            "values": [
+              {
+                "id": "false",
+                "label": {
+                  "en": "No",
+                  "nl": "Nee"
+                }
+              },
+              {
+                "id": "true",
+                "label": {
+                  "en": "Yes",
+                  "nl": "Ja"
+                }
+              }
+            ],
+            "title": {
+              "en": "Rainbow",
+              "nl": "Regenboog"
+            }
+          }
+        ]
+      },
+      {
+        "id": "remove_custom_app",
+        "title": {
+          "en": "Remove custom app",
+          "nl": "Verwijder custom app"
+        },
+        "titleFormatted": {
+          "en": "Remove app [[name]]",
+          "nl": "Verwijder app [[name]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "placeholder": {
+              "en": "homey"
+            }
+          }
+        ]
+      },
+      {
+        "id": "play_sound",
+        "highlight": true,
+        "title": {
+          "en": "Play a sound",
+          "nl": "Speel een geluid af"
+        },
+        "titleFormatted": {
+          "en": "Play sound [[sound]]",
+          "nl": "Speel geluid [[sound]]"
+        },
+        "hint": {
+          "en": "Built-in RTTTL sounds work without files on the clock. Device melody names play from MELODIES/.",
+          "nl": "Ingebouwde RTTTL-geluiden werken zonder bestanden op de klok. Melodienamen spelen vanaf MELODIES/."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "sound",
+            "type": "autocomplete",
+            "title": {
+              "en": "Sound",
+              "nl": "Geluid"
+            }
+          }
+        ]
+      },
+      {
+        "id": "play_rtttl",
+        "title": {
+          "en": "Play RTTTL melody",
+          "nl": "Speel RTTTL-melodie"
+        },
+        "titleFormatted": {
+          "en": "Play RTTTL [[rtttl]]",
+          "nl": "Speel RTTTL [[rtttl]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "rtttl",
+            "type": "text",
+            "placeholder": {
+              "en": "beep:d=4,o=5,b=320:8c6"
+            }
+          }
+        ]
+      },
+      {
+        "id": "set_indicator",
+        "title": {
+          "en": "Set indicator LED",
+          "nl": "Zet indicator-LED"
+        },
+        "titleFormatted": {
+          "en": "Set indicator [[indicator]] to [[color]]",
+          "nl": "Zet indicator [[indicator]] op [[color]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "indicator",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "1",
+                "label": {
+                  "en": "1 (top)",
+                  "nl": "1 (boven)"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "2 (middle)",
+                  "nl": "2 (midden)"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "3 (bottom)",
+                  "nl": "3 (onder)"
+                }
+              }
+            ]
+          },
+          {
+            "name": "color",
+            "type": "color",
+            "value": "#FF0000"
+          },
+          {
+            "name": "blink",
+            "type": "number",
+            "required": false,
+            "placeholder": {
+              "en": "ms (optional)"
+            },
+            "title": {
+              "en": "Blink interval (ms)",
+              "nl": "Knipperinterval (ms)"
+            }
+          },
+          {
+            "name": "fade",
+            "type": "number",
+            "required": false,
+            "placeholder": {
+              "en": "ms (optional)"
+            },
+            "title": {
+              "en": "Fade interval (ms)",
+              "nl": "Fade-interval (ms)"
+            }
+          }
+        ]
+      },
+      {
+        "id": "dismiss_indicator",
+        "title": {
+          "en": "Turn off indicator LED",
+          "nl": "Schakel indicator-LED uit"
+        },
+        "titleFormatted": {
+          "en": "Turn off indicator [[indicator]]",
+          "nl": "Schakel indicator [[indicator]] uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "indicator",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "1",
+                "label": {
+                  "en": "1 (top)",
+                  "nl": "1 (boven)"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "2 (middle)",
+                  "nl": "2 (midden)"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "3 (bottom)",
+                  "nl": "3 (onder)"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "set_moodlight",
+        "title": {
+          "en": "Set mood light",
+          "nl": "Zet sfeerverlichting"
+        },
+        "titleFormatted": {
+          "en": "Mood light brightness [[brightness]] color [[color]]",
+          "nl": "Sfeerhelderheid [[brightness]] kleur [[color]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "brightness",
+            "type": "number",
+            "placeholder": {
+              "en": "0-255"
+            },
+            "title": {
+              "en": "Brightness",
+              "nl": "Helderheid"
+            }
+          },
+          {
+            "name": "color",
+            "type": "color",
+            "required": false,
+            "value": "#FFAA55"
+          },
+          {
+            "name": "kelvin",
+            "type": "number",
+            "required": false,
+            "placeholder": {
+              "en": "2300"
+            },
+            "title": {
+              "en": "Kelvin (optional)",
+              "nl": "Kelvin (optioneel)"
+            }
+          }
+        ]
+      },
+      {
+        "id": "clear_moodlight",
+        "title": {
+          "en": "Clear mood light",
+          "nl": "Wis sfeerverlichting"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      },
+      {
+        "id": "set_power",
+        "title": {
+          "en": "Turn matrix on or off",
+          "nl": "Zet matrix aan of uit"
+        },
+        "titleFormatted": {
+          "en": "Turn matrix [[state]]",
+          "nl": "Zet matrix [[state]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "state",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "on",
+                "label": {
+                  "en": "On",
+                  "nl": "Aan"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Off",
+                  "nl": "Uit"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "next_app",
+        "title": {
+          "en": "Next app",
+          "nl": "Volgende app"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      },
+      {
+        "id": "previous_app",
+        "title": {
+          "en": "Previous app",
+          "nl": "Vorige app"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      },
+      {
+        "id": "switch_app",
+        "title": {
+          "en": "Switch to app",
+          "nl": "Schakel naar app"
+        },
+        "titleFormatted": {
+          "en": "Switch to [[name]]",
+          "nl": "Schakel naar [[name]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "placeholder": {
+              "en": "Time"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sleep",
+        "title": {
+          "en": "Deep sleep",
+          "nl": "Diepe slaap"
+        },
+        "titleFormatted": {
+          "en": "Sleep for [[seconds]] seconds",
+          "nl": "Slaap [[seconds]] seconden"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          },
+          {
+            "name": "seconds",
+            "type": "number",
+            "placeholder": {
+              "en": "60"
+            }
+          }
+        ]
+      },
+      {
+        "id": "reboot",
+        "title": {
+          "en": "Reboot device",
+          "nl": "Herstart apparaat"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=ulanzi_tc002"
+          }
+        ]
+      }
+    ]
+  }
+}
